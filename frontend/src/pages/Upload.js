@@ -42,7 +42,7 @@ const Upload = () => {
           Authorization: `Bearer ${userInfo.token}`
         }
       };
-      await axios.post('http://localhost:5000/api/resources', data, config);
+      await axios.post('http://localhost:5000/api/resources/upload', data, config);
       alert("Success! Your notes are now live.");
       navigate('/');
     } catch (err) {

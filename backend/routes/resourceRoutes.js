@@ -1,16 +1,22 @@
 const express = require('express');
-const multer = require('multer');
-const { uploadResource, getResources } = require('../controllers/resourceController');
-const { protect } = require('../middleware/authMiddleware');
 const router = express.Router();
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, 'uploads/'),
-  filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname)
-});
-const upload = multer({ storage });
+const upload = require('../middleware/upload');
 
-router.post('/', protect, upload.single('file'), uploadResource);
-router.get('/', getResources);
+// 🔥 IMPORTANT: correct import
+const resourceController = require('../controllers/resourceController');
 
+router.get('/', resourceController.getResources);
+
+// comment this temporarily to isolate error
+// router.post('/upload', upload.single('file'), resourceController.uploadResource);
+console.log("Controller:", resourceController);
+console.log("getResources:", resourceController.getResources);
+// router.post('/upload', upload.single('file'), (req, res) => {
+//   console.log("Upload route hit");
+//   console.log("Request body:", req.body);
+//   console.log("Request file:", req.file);
+//   resourceController.uploadResource(req, res);
+// });
+router.post('/upload', upload.single('file'), resourceController.uploadResource);
 module.exports = router;

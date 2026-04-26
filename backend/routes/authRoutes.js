@@ -1,8 +1,10 @@
 const express = require('express');
-const { register, login } = require('../controllers/authController');
 const router = express.Router();
+const { registerUser, loginUser } = require('../controllers/authController');
 
-router.post('/register', register);
-router.post('/login', login);
+// WRONG: router.post('/api/auth/register', ...) 
+// RIGHT: server.js already added '/api/auth', so just use '/register'
+router.post('/register', registerUser); 
+router.post('/login', loginUser);
 
 module.exports = router;

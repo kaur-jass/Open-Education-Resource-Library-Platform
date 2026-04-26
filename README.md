@@ -1,2 +1,9 @@
-# Open-Education-Resource-Library-Platform
-This is my Software Engineering Lab Project.... Working on it.... 
+📚 OER Commons PortalA modern, high-density Open Educational Resources (OER) discovery platform. This project serves as a centralized hub for students and educators to access millions of vetted resources across 20+ subject areas, ranging from DBMS and AI to Applied Sciences and Law.🚀 FeaturesGlobal Discovery Hub: A high-density grid of 20+ subject categories linking directly to world-class educational providers like MIT OCW, Khan Academy, and PhET.Intelligent Navigation: A global search bar that allows users to type any custom topic and instantly navigate to deep-search results on OER Commons.User Management: Fully integrated authentication system with personalized "Hi, Jaspreet" dashboards for contributors.Resource Management: A backend API built to handle internal resource uploads and category-based filtering.Responsive Design: Fully optimized for all devices, from mobile phones to high-resolution desktop monitors.🛠️ Tech StackFrontend:React.js: For a dynamic, component-based UI.Tailwind CSS: For modern, utility-first styling and responsive layouts.Lucide-React: For high-quality, consistent iconography.Backend:Node.js & Express: Handling the API logic and resource routing.MongoDB: (Implicitly used based on API structure) For storing resource metadata and user info.📦 Installation & Setup1. Clone the repositoryBashgit clone https://github.com/your-username/oer-commons-portal.git
+cd oer-commons-portal
+2. Setup the BackendBashcd backend
+npm install
+npm start
+Note: Ensure your MongoDB connection string is configured in your .env file.3. Setup the FrontendBashcd frontend
+npm install
+npm start
+The app will run at http://localhost:3000.📸 ScreenshotsHome Page (Internal Search)Discover Page (Global Portal)🤝 ContributingWe welcome contributions! Whether it's adding new external providers to the Discover page or improving the search algorithm, feel free to fork and submit a PR.📜 LicenseDistributed under the MIT License. See LICENSE for more information.

@@ -4,7 +4,8 @@ import { useLocation } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
 import ResourceCard from '../components/ResourceCard';
-import { LayoutGrid, Loader2, RefreshCcw, SearchX, Globe } from 'lucide-react';
+import Footer from '../components/Footer'; // 1. IMPORT ADDED HERE
+import { LayoutGrid, Loader2, RefreshCcw, SearchX } from 'lucide-react';
 
 const Home = () => {
   const [resources, setResources] = useState([]);
@@ -77,6 +78,8 @@ const Home = () => {
           </div>
         )}
       </main>
+
+      <Footer /> {/* 2. FOOTER INTEGRATED HERE */}
     </div>
   );
 };

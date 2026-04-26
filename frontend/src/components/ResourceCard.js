@@ -1,33 +1,43 @@
 import React from 'react';
-import { FileText, Video, Download, User } from 'lucide-react'; // Install: npm install lucide-react
+import { FileText, Download, Calendar } from 'lucide-react';
 
 const ResourceCard = ({ resource }) => {
-  return (
-    <div className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-      <div className="p-5">
-        <div className="flex items-center justify-between mb-3">
-          <span className="text-xs font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-2 py-1 rounded">
-            {resource.category}
-          </span>
-          {resource.fileType === 'video' ? <Video size={18} /> : <FileText size={18} />}
-        </div>
-        
-        <h3 className="text-xl font-bold text-gray-800 mb-2 truncate">{resource.title}</h3>
-        <p className="text-gray-600 text-sm mb-4 line-clamp-2">{resource.description}</p>
-        
-        <div className="flex items-center text-xs text-gray-500 mb-4">
-          <User size={14} className="mr-1" />
-          <span>Uploaded by: {resource.uploader?.name?.first || 'Anonymous'}</span>
-        </div>
+  // FIX: Check if fileUrl is an external link or a local filename
+  const getFileLink = () => {
+    if (resource.fileUrl.startsWith('http')) {
+      return resource.fileUrl; // Use external link directly
+    }
+    return `http://localhost:5000/uploads/${resource.fileUrl}`; // Use local backend
+  };
 
+  return (
+    <div className="bg-white rounded-[2rem] p-8 shadow-sm border border-gray-100 hover:shadow-xl transition-all group">
+      <div className="flex justify-between items-start mb-6">
+        <div className="bg-blue-50 p-4 rounded-2xl group-hover:bg-blue-600 transition-colors">
+          <FileText className="text-blue-600 group-hover:text-white" size={28} />
+        </div>
+      </div>
+
+      <div className="space-y-3">
+        <span className="text-blue-600 text-[10px] font-black uppercase tracking-widest">{resource.category}</span>
+        <h3 className="text-2xl font-serif font-bold text-[#34495e] leading-tight">{resource.title}</h3>
+        <p className="text-gray-500 text-sm line-clamp-2 italic">{resource.description}</p>
+      </div>
+
+      <div className="mt-8 pt-6 border-t border-gray-50 flex items-center justify-between">
+        <div className="flex items-center text-gray-400 text-xs font-bold uppercase">
+          <Calendar size={14} className="mr-1" />
+          {resource.createdAt}
+        </div>
+        
+        {/* Updated Download Link */}
         <a 
-          href={`http://localhost:5000${resource.fileUrl}`} 
+          href={getFileLink()} 
           target="_blank" 
-          rel="noreferrer"
-          className="flex items-center justify-center w-full bg-gray-100 text-gray-700 py-2 rounded font-semibold hover:bg-gray-200 transition"
+          rel="noopener noreferrer"
+          className="flex items-center bg-[#34495e] text-white px-5 py-2.5 rounded-xl font-bold text-sm hover:bg-blue-600 transition-all shadow-lg"
         >
-          <Download size={16} className="mr-2" />
-          View Resource
+          <Download size={16} className="mr-2" /> View PDF
         </a>
       </div>
     </div>

@@ -1,13 +1,12 @@
 const Resource = require('../models/Resource');
 
-// @desc    Get all resources (with search/filter)
-// @route   GET /api/resources
+// ✅ GET resources
 exports.getResources = async (req, res) => {
   try {
     const { search, category } = req.query;
+
     let query = {};
 
-    // 1. Search Logic: Search title OR description
     if (search) {
       query.$or = [
         { title: { $regex: search, $options: 'i' } },
@@ -15,18 +14,43 @@ exports.getResources = async (req, res) => {
       ];
     }
 
-    // 2. Category Filter Logic
-    if (category && category !== 'Subject') {
+    if (category) {
       query.category = category;
     }
 
-    // Fetch and populate the uploader name
-    const resources = await Resource.find(query)
-      .populate('uploader', 'name')
-      .sort({ createdAt: -1 });
+    const resources = await Resource.find(query).sort({ createdAt: -1 });
 
     res.json(resources);
-  } catch (error) {
-    res.status(500).json({ message: "Server Error", error: error.message });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// ✅ UPLOAD resource
+exports.uploadResource = async (req, res) => {
+  try {
+    console.log("BODY:", req.body);
+    console.log("FILE:", req.file);
+
+    if (!req.file) {
+      return res.status(400).json({ message: "File required" });
+    }
+
+    const { title, description, category, type } = req.body;
+
+    const newResource = new Resource({
+      title,
+      description,
+      category,
+      fileType: type,
+      fileUrl: req.file.filename
+    });
+
+    const saved = await newResource.save();
+
+    res.status(201).json(saved);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Upload failed" });
   }
 };
