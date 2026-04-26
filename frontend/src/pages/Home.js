@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
 import ResourceCard from '../components/ResourceCard';
-import Footer from '../components/Footer'; // 1. IMPORT ADDED HERE
+import Footer from '../components/Footer'; 
 import { LayoutGrid, Loader2, RefreshCcw, SearchX } from 'lucide-react';
 
 const Home = () => {
@@ -28,6 +28,11 @@ const Home = () => {
       setLoading(false);
     }
   }, []);
+
+  // Handler to remove deleted item from the local state instantly
+  const handleDeleteSuccess = (deletedId) => {
+    setResources((prevResources) => prevResources.filter(item => item._id !== deletedId));
+  };
 
   useEffect(() => {
     const categoryFromUrl = new URLSearchParams(location.search).get('category');
@@ -65,7 +70,11 @@ const Home = () => {
         ) : resources.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {resources.map((item) => (
-              <ResourceCard key={item._id} resource={item} />
+              <ResourceCard 
+                key={item._id} 
+                resource={item} 
+                onDelete={handleDeleteSuccess} // Pass the delete handler here
+              />
             ))}
           </div>
         ) : (
@@ -79,7 +88,7 @@ const Home = () => {
         )}
       </main>
 
-      <Footer /> {/* 2. FOOTER INTEGRATED HERE */}
+      <Footer />
     </div>
   );
 };
